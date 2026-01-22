@@ -12,5 +12,10 @@ public class Door : MonoBehaviour, ISwitchActivatable
     public void OnSwitchActivation()
     {
         animator.SetTrigger("Open");
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        foreach (Transform child in GetComponentsInChildren<Transform>())
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Default");
+        }
     }
 }
