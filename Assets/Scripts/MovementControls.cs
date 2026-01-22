@@ -8,7 +8,12 @@ public class MovementControls : MonoBehaviour
     [SerializeField] float audioStepInterval = 1f;
     float audioStepCounter = 1f;
 
+    [SerializeField] float interactionRange = 2f;
+    [SerializeField] LayerMask interactionLayer;
+    public GameObject interactUI;
+
     CharacterController cc;
+    Camera cam;
     AudioSource audioSource;
     [SerializeField] AudioClip[] stepClips;
 
@@ -16,6 +21,7 @@ public class MovementControls : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
+        cam = Camera.main;
     }
 
     private void Start()
@@ -24,6 +30,27 @@ public class MovementControls : MonoBehaviour
     }
 
     private void Update()
+    {
+        CharacterMovement();
+
+        interactUI.SetActive(false);
+
+        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out RaycastHit hit, interactionRange, interactionLayer))
+        {
+            Debug.Log("Hit a switch");
+            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+
+            interactUI.SetActive(true);
+            interactUI.GetComponent<RectTransform>().position = cam.WorldToScreenPoint(hit.collider.transform.position);
+
+            if (Input.GetButtonDown("Interact"))
+            {
+                interactable.Interact();
+            }
+        }
+    }
+
+    private void CharacterMovement()
     {
         float xInput = Input.GetAxisRaw("Horizontal");
         float yInput = Input.GetAxisRaw("Vertical");
@@ -34,7 +61,12 @@ public class MovementControls : MonoBehaviour
 
         cc.Move(movementDir * Time.deltaTime * movementSpeed);
 
-        if (cc.velocity.magnitude > 0.1f) // SONIDO DE PASOS AL ANDAR
+        PlayStepSounds();
+    }
+
+    private void PlayStepSounds()
+    {
+        if (cc.velocity.magnitude > 0.1f)
         {
             if (audioStepCounter <= 0)
             {
