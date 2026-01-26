@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Door : MonoBehaviour, ISwitchActivatable
+public class Door : MonoBehaviour, IRemotelyActivatable
 {
     Animator animator;
 
@@ -9,7 +9,7 @@ public class Door : MonoBehaviour, ISwitchActivatable
         animator = GetComponent<Animator>();
     }
 
-    public void OnSwitchActivation()
+    public void OnRemoteActivation()
     {
         animator.SetTrigger("Open");
         gameObject.layer = LayerMask.NameToLayer("Default");

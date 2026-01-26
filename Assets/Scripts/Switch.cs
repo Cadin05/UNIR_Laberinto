@@ -13,7 +13,7 @@ public class Switch : MonoBehaviour, IInteractable
     public void Interact()
     {
         animator.SetTrigger("TurnOn");
-        switchActivatedObject.GetComponent<ISwitchActivatable>().OnSwitchActivation();
+        switchActivatedObject.GetComponent<IRemotelyActivatable>().OnRemoteActivation();
         gameObject.layer = LayerMask.NameToLayer("Default");
         foreach (Transform child in GetComponentsInChildren<Transform>())
         {
