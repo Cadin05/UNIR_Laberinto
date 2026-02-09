@@ -7,7 +7,12 @@ public class enemy : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] Transform patrolPointsParent;
     [SerializeField] float reachDistance = 2f;
+    [SerializeField] float initialLife = 3f;
+    [SerializeField] Canvas canvasEnemyDetection;
+    [SerializeField] private FloatingHealthBar healthBar;
+    
 
+    private AudioSource[] audioSources;
     NavMeshAgent agent;
     Vision vision;
     int currenPatrolPoint = 0;
@@ -28,6 +33,10 @@ public class enemy : MonoBehaviour
     {
         agent= GetComponent<NavMeshAgent>();
         vision = GetComponent<Vision>();
+        //healthBar = GetComponentInChildren<FloatingHealthBar>();
+        currentLife = initialLife;
+        audioSources = GetComponents<AudioSource>();
+        //healthBar.UpdateHealthBar(currentLife, initialLife);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -151,8 +160,13 @@ public class enemy : MonoBehaviour
     //GESTION ESTADO SEGUIMIENTO
     void EnterFollowingState()
     {
-        //podemos añadir un efecto sonoro para indicar al jugador que el enemigo le ha detectado y le va a perseguir
-
+        canvasEnemyDetection.enabled = true;
+        
+        AudioSource detectedAudio = audioSources[0];
+        if (detectedAudio != null)
+        {
+            detectedAudio.Play();
+        }
     }
     void UpdateFollowingState()
     {
@@ -160,18 +174,29 @@ public class enemy : MonoBehaviour
     }
     void ExitFollowingState()
     {
+        canvasEnemyDetection.enabled = false;
         agent.SetDestination(transform.position);
+        AudioSource undetectedAudio = audioSources[1];
+        if (undetectedAudio != null)
+        {
+            undetectedAudio.Play();
+        }
+        
     }
     //GESTION ESTADO MUERTE
     void EnterDeathState()
     {
         //poner animacion de muerte
         //desactivar collider
+        AudioSource deathAudio = audioSources[3];
+        if (deathAudio != null)
+        {
+            deathAudio.Play();
+        }
     }
     void UpdateDeath()
     {
-        //no aplica
-        //creamos el método para tenerlo por si hicera falta.
+        Destroy(gameObject, 2f); 
     }
     
     void ExitDeathState()
@@ -179,7 +204,17 @@ public class enemy : MonoBehaviour
         // no aplica
         //creamos el método para tenerlo por si hicera falta.
     }
-
+    public void Hurt()
+    {
+        currentLife--;
+        AudioSource hurtAudio = audioSources[2];
+        if (hurtAudio != null)
+        {
+            hurtAudio.Play();
+        }
+        
+        //healthBar.UpdateHealthBar(currentLife, initialLife);
+    }
 
     
     
