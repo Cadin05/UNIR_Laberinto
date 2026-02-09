@@ -99539,6 +99539,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthBarCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 320506442421740557, guid: 859b51f9455fcbc41991fa41ca12eece, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2427954991359202479, guid: 859b51f9455fcbc41991fa41ca12eece, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -99581,7 +99585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2427954991359202479, guid: 859b51f9455fcbc41991fa41ca12eece, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.583
+      value: -0.22
       objectReference: {fileID: 0}
     - target: {fileID: 2427954991359202479, guid: 859b51f9455fcbc41991fa41ca12eece, type: 3}
       propertyPath: m_LocalRotation.w
@@ -99601,7 +99605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2427954991359202479, guid: 859b51f9455fcbc41991fa41ca12eece, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -3.261
+      value: -3.37
       objectReference: {fileID: 0}
     - target: {fileID: 2427954991359202479, guid: 859b51f9455fcbc41991fa41ca12eece, type: 3}
       propertyPath: m_AnchoredPosition.y
