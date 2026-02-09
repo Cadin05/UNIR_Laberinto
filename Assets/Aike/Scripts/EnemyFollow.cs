@@ -6,6 +6,7 @@ public class EnemyFollow : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] float initialLife = 3f;
     [SerializeField] Canvas canvasEnemyDetection;
+    [SerializeField] private FloatingHealthBar healthBar;
     
     private AudioSource[] audioSources;
     
@@ -17,7 +18,7 @@ public class EnemyFollow : MonoBehaviour
     
     enum State
     {
-        Waiting,
+        Waiting, // TODO: Cambiar a Patrol
         Following,
         Death
     }
@@ -28,9 +29,11 @@ public class EnemyFollow : MonoBehaviour
     {
         sight = GetComponent<SightFollow>();
         agent = GetComponent<NavMeshAgent>();
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
         currentLife = initialLife;
         initialPosition = transform.position;
         audioSources = GetComponents<AudioSource>();
+        healthBar.UpdateHealthBar(currentLife, initialLife);
     }
 
     private void Update()
@@ -162,17 +165,34 @@ public class EnemyFollow : MonoBehaviour
     #region Death State
     private void EnterDeathState()
     {
-        // Nada de momento
-        // en el futuro animacion de muerte
-        // desactivar collider
+        // que se pare
+        agent.SetDestination(transform.position);
+        
+        AudioSource deathAudio = audioSources[3];
+        if (deathAudio != null)
+        {
+            deathAudio.Play();
+        }
     }
     private void UpdateDeath()
     {
-        Destroy(gameObject); 
+        Destroy(gameObject, 2f); 
     }
 
     
     #endregion
 
     #endregion
+    
+    public void Hurt()
+    {
+        currentLife--;
+        AudioSource hurtAudio = audioSources[2];
+        if (hurtAudio != null)
+        {
+            hurtAudio.Play();
+        }
+        
+        healthBar.UpdateHealthBar(currentLife, initialLife);
+    }
 }

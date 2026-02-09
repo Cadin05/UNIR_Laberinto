@@ -22,7 +22,7 @@ public class SightFollow : MonoBehaviour
             foreach (Collider c in colliders)
             {
 
-                if (c.CompareTag("Player")) // antes c.compareTag("Player")
+                if (c.CompareTag("Player"))
                 {
                     Vector3 direction = c.transform.position - transform.position;
                     if (Physics.Raycast(transform.position, direction, out RaycastHit hit))
@@ -30,7 +30,6 @@ public class SightFollow : MonoBehaviour
                         if (hit.collider == c)
                         {
                             player = c.transform;
-                             Debug.Log("Player found ", player);
                         }
                     }
                 } 
