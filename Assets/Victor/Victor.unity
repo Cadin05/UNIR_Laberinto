@@ -10163,6 +10163,23 @@ MonoBehaviour:
   target: {fileID: 0}
   patrolPointsParent: {fileID: 1215180973}
   reachDistance: 2
+--- !u!114 &245998357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245998350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dff613786bdc4c7f814e0e8a6b182fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vision
+  radius: 3
+  checksPerSecond: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 507
 --- !u!1001 &246779404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52304,6 +52321,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1959909477}
+    - targetCorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1959909483}
   m_SourcePrefab: {fileID: 100100000, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
 --- !u!1001 &1193958715
 PrefabInstance:
@@ -78508,8 +78528,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be971082fe57ea74681a64c627328099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementControls
-  rotationSpeed: 90
   movementSpeed: 5
+  mouseSensitivity: 10
   audioStepInterval: 0.5
   interactionRange: 2
   interactionLayer:
@@ -78517,6 +78537,7 @@ MonoBehaviour:
     m_Bits: 128
   interactUI: {fileID: 737199727}
   deathScreenUI: {fileID: 836017990}
+  cmCam: {fileID: 0}
   stepClips:
   - {fileID: 8300000, guid: d7cfa3778b6f50643b075d33b6ba88d7, type: 3}
   - {fileID: 8300000, guid: 22ab41fee490e794390287d03bd94d7b, type: 3}
@@ -87311,6 +87332,23 @@ MonoBehaviour:
   target: {fileID: 0}
   patrolPointsParent: {fileID: 798483040}
   reachDistance: 2
+--- !u!114 &1959909483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959909476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dff613786bdc4c7f814e0e8a6b182fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vision
+  radius: 3
+  checksPerSecond: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967291
 --- !u!1001 &1960578594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99648,6 +99686,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 245998351}
+    - targetCorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 245998357}
   m_SourcePrefab: {fileID: 100100000, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
 --- !u!1001 &3034904547602807971
 PrefabInstance:

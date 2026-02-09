@@ -9393,28 +9393,11 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 224646769}
+      addedObject: {fileID: 1660513253}
+    - targetCorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1660513259}
   m_SourcePrefab: {fileID: 100100000, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
---- !u!1 &224646768 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
-  m_PrefabInstance: {fileID: 224646767}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &224646769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 224646768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e90503b54a494b50b2b579ed370d289, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::enemy
-  target: {fileID: 0}
-  patrolPointsParent: {fileID: 0}
-  reachDistance: 2
 --- !u!1001 &224652390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68632,6 +68615,43 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 73449814953358690, guid: 5f8e007c6345837429f8f685d1b2cc1b, type: 3}
   m_PrefabInstance: {fileID: 1660463955}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1660513252 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
+  m_PrefabInstance: {fileID: 224646767}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1660513253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660513252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dff613786bdc4c7f814e0e8a6b182fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vision
+  radius: 3
+  checksPerSecond: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967291
+--- !u!114 &1660513259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660513252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e90503b54a494b50b2b579ed370d289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemy
+  target: {fileID: 0}
+  patrolPointsParent: {fileID: 1429422444}
+  reachDistance: 2
 --- !u!1001 &1660764996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72160,6 +72180,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1741307631}
+    - targetCorrespondingSourceObject: {fileID: 4077055448690222733, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1741307632}
   m_SourcePrefab: {fileID: 100100000, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
 --- !u!1 &1741307630 stripped
 GameObject:
@@ -72178,9 +72201,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e90503b54a494b50b2b579ed370d289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::enemy
-  target: {fileID: 0}
-  patrolPointsParent: {fileID: 0}
+  target: {fileID: 1761301312}
+  patrolPointsParent: {fileID: 1391980552}
   reachDistance: 2
+--- !u!114 &1741307632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741307630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dff613786bdc4c7f814e0e8a6b182fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vision
+  radius: 3
+  checksPerSecond: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967291
 --- !u!1001 &1742171668
 PrefabInstance:
   m_ObjectHideFlags: 0
