@@ -1,0 +1,178 @@
+using UnityEngine;
+using UnityEngine.AI;
+
+public class EnemyFollow : MonoBehaviour
+{
+    [SerializeField] Transform target;
+    [SerializeField] float initialLife = 3f;
+    [SerializeField] Canvas canvasEnemyDetection;
+    
+    private AudioSource[] audioSources;
+    
+    private float currentLife;
+    private NavMeshAgent agent;
+    private SightFollow sight;
+
+    private Vector3 initialPosition;
+    
+    enum State
+    {
+        Waiting,
+        Following,
+        Death
+    }
+
+    State currentState;
+
+    private void Awake()
+    {
+        sight = GetComponent<SightFollow>();
+        agent = GetComponent<NavMeshAgent>();
+        currentLife = initialLife;
+        initialPosition = transform.position;
+        audioSources = GetComponents<AudioSource>();
+    }
+
+    private void Update()
+    {
+        UpdateSenses();
+        UpdateDecisionMaking();
+        UpdateState();
+    }
+
+    private void UpdateSenses()
+    {
+        target = sight.GetPlayerInSight();
+    }
+
+    private void UpdateDecisionMaking()
+    {
+        if (currentLife <= 0f)
+        {
+              SetState(State.Death);
+        }
+        else if (target != null)
+        {
+             SetState(State.Following);
+        }
+        else
+        {
+            SetState(State.Waiting);
+        }
+    }
+
+    private void UpdateState()
+    {
+        switch (currentState)
+        {
+            case State.Waiting:
+                 UpdateWaiting();
+                break;
+            case State.Following:
+                 UpdateFollowing();
+                break;
+            case State.Death:
+                 UpdateDeath();
+                break;
+        }
+    }
+    
+    #region State Update
+
+    private void SetState(State newState)
+    {
+        if (newState != currentState)
+        {
+            switch (currentState)
+            {
+                case State.Waiting:
+                    ExitWaitingState();
+                    break;
+                case State.Following:
+                    ExitFollowingState();
+                    break;
+                case State.Death:
+                    // ExitDeathState();
+                    break;
+            }
+
+            currentState = newState;
+
+            switch (currentState)
+            {
+                case State.Waiting:
+                    EnterWaitingState();
+                    break;
+                case State.Following:
+                    EnterFollowingState();
+                    break;
+                case State.Death:
+                    EnterDeathState();
+                    break;
+            }
+        }
+    }
+    
+    #region Waiting State
+    private void EnterWaitingState()
+    { 
+        // Nada de momento
+    }
+    private void UpdateWaiting()
+    {
+        agent.SetDestination(initialPosition);
+    }
+
+    private void ExitWaitingState()
+    {
+        // que se pare
+        agent.SetDestination(transform.position);
+    }
+    #endregion
+    
+    #region Following State
+    private void EnterFollowingState()
+    {
+        canvasEnemyDetection.enabled = true;
+        
+        AudioSource detectedAudio = audioSources[0];
+        if (detectedAudio != null)
+        {
+            detectedAudio.Play();
+        }
+        
+    }
+    private void UpdateFollowing()
+    {
+        agent.SetDestination(target.position);
+    }
+
+    private void ExitFollowingState()
+    {
+        canvasEnemyDetection.enabled = false;
+        agent.SetDestination(transform.position);
+        AudioSource undetectedAudio = audioSources[1];
+        if (undetectedAudio != null)
+        {
+            undetectedAudio.Play();
+        }
+    }
+    #endregion
+    
+    #region Death State
+    private void EnterDeathState()
+    {
+        // Nada de momento
+        // en el futuro animacion de muerte
+        // desactivar collider
+    }
+    private void UpdateDeath()
+    {
+        Destroy(gameObject); 
+    }
+
+    
+    #endregion
+
+    #endregion
+}

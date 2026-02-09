@@ -1,0 +1,46 @@
+using UnityEngine;
+
+public class SightFollow : MonoBehaviour
+{
+    [SerializeField] float radius = 10f;
+    [SerializeField] float checksPerSecond;
+    [SerializeField] LayerMask layerMask = Physics.DefaultRaycastLayers;
+    
+    
+    Transform player;
+    float lastCheckTime = 0f;
+    void Update()
+    {
+        if ((Time.time - lastCheckTime) > (1f / checksPerSecond))
+        {
+            // Debug.Log("Checking sight");
+            lastCheckTime = Time.time;
+
+            player = null;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, layerMask);
+
+            foreach (Collider c in colliders)
+            {
+
+                if (c.CompareTag("Player")) // antes c.compareTag("Player")
+                {
+                    Vector3 direction = c.transform.position - transform.position;
+                    if (Physics.Raycast(transform.position, direction, out RaycastHit hit))
+                    {
+                        if (hit.collider == c)
+                        {
+                            player = c.transform;
+                             Debug.Log("Player found ", player);
+                        }
+                    }
+                } 
+
+            }
+        }
+    }
+
+    public Transform GetPlayerInSight()
+    {
+        return player;
+    }
+}
