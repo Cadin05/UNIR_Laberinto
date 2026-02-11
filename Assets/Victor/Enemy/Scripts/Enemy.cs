@@ -10,20 +10,21 @@ public class enemy : MonoBehaviour
     [SerializeField] float initialLife = 3f;
     [SerializeField] Canvas canvasEnemyDetection;
     [SerializeField] private FloatingHealthBar healthBar;
-    
+    [SerializeField] float waitingTime = 3f;
 
     private AudioSource[] audioSources;
     NavMeshAgent agent;
     Vision vision;
     int currenPatrolPoint = 0;
     float currentLife =10f;
-
+    private bool hasMadeDamage = false;
 
     enum State
     {
         Patrol,
         Following,
         Death,
+        Waiting
     }
     
     State currentState;
@@ -65,7 +66,11 @@ public class enemy : MonoBehaviour
     
     void UpdateDecissionMaking()
     {
-        if (currentLife<=0f)
+        if (hasMadeDamage)
+        {
+            SetState(State.Waiting);
+        }
+        else if (currentLife<=0f)
         {
             SetState(State.Death);
         }
@@ -91,6 +96,9 @@ public class enemy : MonoBehaviour
             case State.Death:
                 UpdateDeath();
                 break;
+            case State.Waiting:
+                UpdateWaiting();
+                break;
         }
     }
 
@@ -112,6 +120,9 @@ public class enemy : MonoBehaviour
                 break;
             case State.Death:
                 ExitDeathState();
+                break;  
+            case State.Waiting:
+                ExitWaitingState();
                 break;           
 
         }
@@ -126,7 +137,10 @@ public class enemy : MonoBehaviour
                 break;
             case State.Death:
                 //EnterDeathState();
-                break;           
+                break;
+            case State.Waiting:
+                EnterWaitingState();
+                break;              
 
         }
 
@@ -204,6 +218,29 @@ public class enemy : MonoBehaviour
         // no aplica
         //creamos el método para tenerlo por si hicera falta.
     }
+
+    //GESTION ESTADO ESPERANDO
+    float lastTimeDamage = 0;
+    void EnterWaitingState()
+    {
+        
+        agent.SetDestination(transform.position);  
+    }
+    void UpdateWaiting()
+    {
+        if(Time.time - lastTimeDamage > waitingTime)
+        {
+            hasMadeDamage = false;
+        }
+        
+    }
+    
+    void ExitWaitingState()
+    {
+        // no aplica
+        //creamos el método para tenerlo por si hicera falta.
+    }
+
     public void Hurt()
     {
         currentLife--;
@@ -216,7 +253,18 @@ public class enemy : MonoBehaviour
         //healthBar.UpdateHealthBar(currentLife, initialLife);
     }
 
-    
-    
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            lastTimeDamage = Time.time;
+            hasMadeDamage = true;
+
+            Debug.Log("Player Damage");
+        }
+    }
+
+
+
 }
