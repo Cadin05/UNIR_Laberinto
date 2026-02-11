@@ -1,12 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Switch : MonoBehaviour, IInteractable
 {
     Animator animator;
     public GameObject switchActivatedObject;
+    public Score score;
 
     private void Awake()
     {
+        score = FindAnyObjectByType(typeof(Score)).GetComponent<Score>();
         animator = GetComponent<Animator>();
     }
 
@@ -19,5 +22,7 @@ public class Switch : MonoBehaviour, IInteractable
         {
             child.gameObject.layer = LayerMask.NameToLayer("Default");
         }
+
+        score.UpdateScore(10);
     }
 }

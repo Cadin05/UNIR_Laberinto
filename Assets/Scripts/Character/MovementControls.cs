@@ -26,11 +26,18 @@ public class MovementControls : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] AudioClip[] stepClips;
 
+    Health health;
+    [SerializeField] float maxInvTime = 2f;
+    float invTime = 2f;
+
+    public Score score;
+
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         audioSource = GetComponent<AudioSource>();
+        health = GetComponent<Health>();
         cam = Camera.main;
 
         basicAttack = GetComponent<BasicAttack>();
@@ -41,6 +48,7 @@ public class MovementControls : MonoBehaviour
         audioStepCounter = audioStepInterval;
         deathScreenUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+        invTime = maxInvTime;
     }
 
     private void Update()
@@ -53,10 +61,25 @@ public class MovementControls : MonoBehaviour
         
         Interact();
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !disableMovement)
         {
             basicAttack.Attack();
         }
+
+        if (health.hit) //When hurt
+        {
+            health.hit = false;
+
+            animator.SetTrigger("Hurt");
+            if (health.health <= 0)
+            {
+                health.health = 0;
+                Die();
+            }
+            invTime = maxInvTime;
+        }
+
+        invTime -= Time.deltaTime;
     }
 
     private void Interact()
@@ -124,6 +147,7 @@ public class MovementControls : MonoBehaviour
     {
         disableMovement = true;
         deathScreenUI.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -136,9 +160,18 @@ public class MovementControls : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Lethal"))
+        if (invTime <= 0)
         {
-            Die();
+            if (other.CompareTag("Lethal"))
+            {
+                health.TakeDamage(50);
+                score.UpdateScore(-50);
+            }
+            if (other.CompareTag("Enemy"))
+            {
+                health.TakeDamage(20);
+                score.UpdateScore(-20);
+            }
         }
     }
 }

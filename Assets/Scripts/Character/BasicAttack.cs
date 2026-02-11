@@ -6,7 +6,7 @@ public class BasicAttack : MonoBehaviour
     [SerializeField] float attackRange = 2f;
     [SerializeField] float attackCD = 1f;
     [SerializeField] float lastAttackTime;
-    [SerializeField] int strength = 1;
+    [SerializeField] float strength = 25;
 
     Animator animator;
 

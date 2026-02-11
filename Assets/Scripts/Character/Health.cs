@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour, IDamageable
 {
     [SerializeField] int maxHealth = 100;
-    int health;
+    public float health;
+    public bool hit;
 
     public Image healthBar;
 
@@ -13,8 +14,9 @@ public class Health : MonoBehaviour, IDamageable
         health = maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
+        hit = true;
         health -= damage;
         healthBar.fillAmount = health/maxHealth;
     }

@@ -13,17 +13,23 @@ public class enemy : MonoBehaviour
     
 
     private AudioSource[] audioSources;
+    private Animator animator;
+    private Health health;
     NavMeshAgent agent;
     Vision vision;
     int currenPatrolPoint = 0;
     float currentLife =10f;
 
+    public Score score;
 
+    [SerializeField] float waitingTime = 3f;
+    private bool hasMadeDamage = false;
     enum State
     {
         Patrol,
         Following,
         Death,
+        Waiting,
     }
     
     State currentState;
@@ -34,6 +40,8 @@ public class enemy : MonoBehaviour
         agent= GetComponent<NavMeshAgent>();
         vision = GetComponent<Vision>();
         //healthBar = GetComponentInChildren<FloatingHealthBar>();
+        health = GetComponent<Health>();
+        animator = GetComponentInChildren<Animator>();
         currentLife = initialLife;
         audioSources = GetComponents<AudioSource>();
         //healthBar.UpdateHealthBar(currentLife, initialLife);
@@ -41,7 +49,7 @@ public class enemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -54,7 +62,11 @@ public class enemy : MonoBehaviour
 
         UpdateState();
 
-       
+       if (health.hit == true)
+        {
+            health.hit = false;
+            Hurt();
+        }
         
     }
 
@@ -65,14 +77,18 @@ public class enemy : MonoBehaviour
     
     void UpdateDecissionMaking()
     {
-        if (currentLife<=0f)
+        if (hasMadeDamage)
+        {
+            SetState(State.Waiting);
+        }
+        else if (health.health <= 0f)
         {
             SetState(State.Death);
         }
         else if (target!=null) 
         {
             SetState(State.Following);          
-        }
+        }       
         else
         {
             SetState(State.Patrol);            
@@ -90,6 +106,9 @@ public class enemy : MonoBehaviour
                 break;
             case State.Death:
                 UpdateDeath();
+                break;
+            case State.Waiting:
+                UpdateWaiting();
                 break;
         }
     }
@@ -112,7 +131,10 @@ public class enemy : MonoBehaviour
                 break;
             case State.Death:
                 ExitDeathState();
-                break;           
+                break;
+            case State.Waiting:
+                ExitWaitingState();
+                break;
 
         }
         currentState=newstate;
@@ -125,8 +147,11 @@ public class enemy : MonoBehaviour
                 EnterFollowingState();
                 break;
             case State.Death:
-                //EnterDeathState();
-                break;           
+                EnterDeathState();
+                break;
+            case State.Waiting:
+                EnterWaitingState();
+                break;
 
         }
 
@@ -136,6 +161,7 @@ public class enemy : MonoBehaviour
     void EnterPatrolState()
     {
         //no necesario porque la estrucutra de nuestra FSM no lo necesita, porque recalculamos constantemente.
+        animator.SetBool("Walking", true);
     }
     void UpdatePatrol()
     {
@@ -149,12 +175,13 @@ public class enemy : MonoBehaviour
                     currenPatrolPoint =0;
                 }
             }
+
+        animator.SetBool("Walking", true);
     }
 
     void ExitPatrolState()
     {
         agent.SetDestination(transform.position);
-        
     }
 
     //GESTION ESTADO SEGUIMIENTO
@@ -167,10 +194,15 @@ public class enemy : MonoBehaviour
         {
             detectedAudio.Play();
         }
+
+        animator.SetBool("Walking", true);
     }
     void UpdateFollowingState()
     {
-        agent.SetDestination(target.position);   
+        agent.SetDestination(target.position);
+
+
+        animator.SetBool("Walking", true);
     }
     void ExitFollowingState()
     {
@@ -181,18 +213,20 @@ public class enemy : MonoBehaviour
         {
             undetectedAudio.Play();
         }
-        
+
     }
     //GESTION ESTADO MUERTE
     void EnterDeathState()
     {
-        //poner animacion de muerte
+        animator.SetBool("Dead", true);
         //desactivar collider
         AudioSource deathAudio = audioSources[3];
         if (deathAudio != null)
         {
             deathAudio.Play();
         }
+
+        score.UpdateScore(100);
     }
     void UpdateDeath()
     {
@@ -204,19 +238,49 @@ public class enemy : MonoBehaviour
         // no aplica
         //creamos el método para tenerlo por si hicera falta.
     }
+
+    //GESTION ESTADO ESPERANDO
+    float lastTimeDamage = 0;
+
+    void EnterWaitingState()
+    {
+        animator.SetBool("Walking", false);
+        agent.SetDestination(transform.position);
+    }
+
+    void UpdateWaiting()
+    {
+        if (Time.time - lastTimeDamage > waitingTime)
+        {
+            hasMadeDamage = false;
+        }
+
+    }
+    void ExitWaitingState()
+    {
+        // no aplica
+        //creamos el método para tenerlo por si hicera falta.
+    }
+
     public void Hurt()
     {
-        currentLife--;
         AudioSource hurtAudio = audioSources[2];
         if (hurtAudio != null)
         {
             hurtAudio.Play();
         }
-        
+        animator.SetTrigger("Hurt");
         //healthBar.UpdateHealthBar(currentLife, initialLife);
     }
 
-    
-    
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            lastTimeDamage = Time.time;
+            hasMadeDamage = true;
+
+            Debug.Log("Player Damage");
+        }
+    }
 }
