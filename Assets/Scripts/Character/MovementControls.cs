@@ -168,8 +168,8 @@ public class MovementControls : MonoBehaviour
         {
             if (other.CompareTag("Lethal"))
             {
-                health.TakeDamage(50);
-                score.UpdateScore(-50);
+                health.TakeDamage(30);
+                score.UpdateScore(-30);
             }
             if (other.CompareTag("Enemy"))
             {
