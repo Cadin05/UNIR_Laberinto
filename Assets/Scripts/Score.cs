@@ -19,7 +19,6 @@ public class Score : MonoBehaviour
 
     public void UpdateScore(int scoreChange)
     {
-        Debug.Log("Se ha actualizado" + scoreChange + ", " + score);
         score += scoreChange;
         scoreText.text = $"Score: {score}";
         PlayerPrefs.SetInt("Score", score);
