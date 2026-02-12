@@ -86,17 +86,20 @@ public class MovementControls : MonoBehaviour
     {
         interactUI.SetActive(false);
 
-        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out RaycastHit hit, interactionRange, interactionLayer))
+        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out RaycastHit hit, interactionRange))
         {
-            Debug.Log("Hit a switch");
-            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
-
-            interactUI.SetActive(true);
-            interactUI.GetComponent<RectTransform>().position = cam.WorldToScreenPoint(hit.collider.transform.position);
-
-            if (Input.GetButtonDown("Interact"))
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null)
             {
-                interactable.Interact();
+                Debug.Log("Hit a switch");
+
+                interactUI.SetActive(true);
+                interactUI.GetComponent<RectTransform>().position = cam.WorldToScreenPoint(hit.collider.transform.position);
+
+                if (Input.GetButtonDown("Interact"))
+                {
+                    interactable.Interact();
+                }
             }
         }
     }
@@ -148,6 +151,7 @@ public class MovementControls : MonoBehaviour
         disableMovement = true;
         deathScreenUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+        Destroy(gameObject);
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

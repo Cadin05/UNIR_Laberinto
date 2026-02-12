@@ -76,13 +76,14 @@ public class enemy : MonoBehaviour
     
     void UpdateDecissionMaking()
     {
-        if (hasMadeDamage)
-        {
-            SetState(State.Waiting);
-        }
-        else if (health.health <= 0f)
+        
+        if (health.health <= 0f)
         {
             SetState(State.Death);
+        }
+        else if (hasMadeDamage)
+        {
+            SetState(State.Waiting);
         }
         else if (target!=null) 
         {
