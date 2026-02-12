@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -43,6 +44,7 @@ public class enemy : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         currentLife = initialLife;
         audioSources = GetComponents<AudioSource>();
+        score = FindAnyObjectByType(typeof(Score)).GetComponent<Score>();
         //healthBar.UpdateHealthBar(currentLife, initialLife);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -9452,6 +9452,10 @@ PrefabInstance:
       propertyPath: radius
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8528654371632851802, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1839175382069069870, guid: e736b2aae3ee64d12869f547157f79e1, type: 3}
@@ -82408,8 +82412,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279900758
-  m_fontColor: {r: 0.335849, g: 0.10328938, b: 0.10328938, a: 1}
+    rgba: 4279900815
+  m_fontColor: {r: 0.5622641, g: 0.100783125, b: 0.100783125, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
