@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class FloatingHealthBar : MonoBehaviour
 {
     public Transform target;        // Assign the enemy object
-    public Camera camera;
+    public Camera cam;
     
     public Slider slider;
 
@@ -13,7 +13,7 @@ public class FloatingHealthBar : MonoBehaviour
     {
         if (target != null)
         {
-            transform.LookAt(camera.transform.position);
+            transform.LookAt(cam.transform.position);
         }
     }
     

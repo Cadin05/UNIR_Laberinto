@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class WinScore : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class WinScore : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
+
+        if (PlayerPrefs.GetInt("Score") > PlayerPrefs.GetInt("Best Score"))
+        {
+            PlayerPrefs.SetInt("Best Score", PlayerPrefs.GetInt("Score"));
+        }
         textScore.text = $"Score: {PlayerPrefs.GetInt("Score")} \nBest Score: {PlayerPrefs.GetInt("Best Score")}";
     }
 }

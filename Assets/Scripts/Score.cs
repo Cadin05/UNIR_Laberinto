@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
@@ -22,10 +21,5 @@ public class Score : MonoBehaviour
         score += scoreChange;
         scoreText.text = $"Score: {score}";
         PlayerPrefs.SetInt("Score", score);
-
-        if (score > PlayerPrefs.GetInt("Best Score"))
-        {
-            PlayerPrefs.SetInt("Best Score", score);
-        }
     }
 }
