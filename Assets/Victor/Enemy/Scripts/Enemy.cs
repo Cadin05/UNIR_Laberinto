@@ -81,18 +81,22 @@ public class enemy : MonoBehaviour
         
         if (health.health <= 0f)
         {
+            Debug.Log("Sin vida");
             SetState(State.Death);
         }
         else if (hasMadeDamage)
         {
+            Debug.Log("Dañado");
             SetState(State.Waiting);
         }
-        else if (target!=null) 
+        else if (target!=null)
         {
+            Debug.Log("Siguiendo");
             SetState(State.Following);          
         }       
         else
         {
+            Debug.Log("Patrullando");
             SetState(State.Patrol);            
         }
     }
@@ -228,6 +232,7 @@ public class enemy : MonoBehaviour
             deathAudio.Play();
         }
 
+        Debug.Log("Muerto");
         score.UpdateScore(100);
     }
     void UpdateDeath()

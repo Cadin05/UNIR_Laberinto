@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
-    int score;
+    [SerializeField] int score;
     TextMeshProUGUI scoreText;
 
     private void Awake()
@@ -14,10 +14,12 @@ public class Score : MonoBehaviour
     private void Start()
     {
         PlayerPrefs.SetInt("Score", 0);
+        score = 0;
     }
 
     public void UpdateScore(int scoreChange)
     {
+        Debug.Log("Se ha actualizado" + scoreChange + ", " + score);
         score += scoreChange;
         scoreText.text = $"Score: {score}";
         PlayerPrefs.SetInt("Score", score);
